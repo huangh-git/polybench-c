@@ -97,7 +97,7 @@ void kernel_reg_detect(int niter, int maxgrid, int length,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int niter = NITER;

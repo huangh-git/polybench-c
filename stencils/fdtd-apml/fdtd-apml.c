@@ -164,7 +164,7 @@ void kernel_fdtd_apml(int cz,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int cz = CZ;

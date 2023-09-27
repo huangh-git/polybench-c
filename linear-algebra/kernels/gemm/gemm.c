@@ -86,7 +86,7 @@ void kernel_gemm(int ni, int nj, int nk,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int ni = NI;

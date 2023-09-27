@@ -119,7 +119,7 @@ void kernel_correlation(int m, int n,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int n = N;

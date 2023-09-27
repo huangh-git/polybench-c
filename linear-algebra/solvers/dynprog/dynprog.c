@@ -81,7 +81,7 @@ void kernel_dynprog(int tsteps, int length,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int length = LENGTH;

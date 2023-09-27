@@ -104,7 +104,7 @@ void kernel_3mm(int ni, int nj, int nk, int nl, int nm,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int ni = NI;

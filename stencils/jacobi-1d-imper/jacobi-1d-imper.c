@@ -75,7 +75,7 @@ void kernel_jacobi_1d_imper(int tsteps,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int n = N;

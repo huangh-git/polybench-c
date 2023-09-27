@@ -74,7 +74,7 @@ void kernel_trmm(int ni,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int ni = NI;

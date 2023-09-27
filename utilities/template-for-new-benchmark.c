@@ -62,7 +62,7 @@ void kernel_template(int n, DATA_TYPE POLYBENCH_2D(C,N,N,n,n))
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int n = N;

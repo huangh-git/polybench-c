@@ -129,8 +129,8 @@
 # endif
 
 # define polybench_prevent_dce(func)		\
-  POLYBENCH_DCE_ONLY_CODE			\
-  func
+  // POLYBENCH_DCE_ONLY_CODE			\
+  // func
 
 
 /* Performance-related instrumentation. See polybench.c */

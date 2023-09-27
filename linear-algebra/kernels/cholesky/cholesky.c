@@ -83,7 +83,7 @@ for (i = 0; i < _PB_N; ++i)
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int n = N;

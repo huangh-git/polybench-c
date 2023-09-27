@@ -80,7 +80,7 @@ void kernel_doitgen(int nr, int nq, int np,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int nr = NR;

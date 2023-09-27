@@ -99,7 +99,7 @@ void kernel_fdtd_2d(int tmax,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int tmax = TMAX;

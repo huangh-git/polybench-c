@@ -70,7 +70,7 @@ void kernel_seidel_2d(int tsteps,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int n = N;

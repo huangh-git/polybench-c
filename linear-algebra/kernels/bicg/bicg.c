@@ -88,7 +88,7 @@ void kernel_bicg(int nx, int ny,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int nx = NX;

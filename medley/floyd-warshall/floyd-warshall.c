@@ -70,7 +70,7 @@ void kernel_floyd_warshall(int n,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int n = N;

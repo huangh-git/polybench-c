@@ -90,7 +90,7 @@ void kernel_symm(int ni, int nj,
 }
 
 
-int main(int argc, char** argv)
+int main()
 {
   /* Retrieve problem size. */
   int ni = NI;
