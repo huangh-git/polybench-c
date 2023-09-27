@@ -2,3 +2,5 @@
 */**/*.*wat
 */**/*.*ll
 .vscode/**
+**/____tempfile.data.polybench
+*.log
