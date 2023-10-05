@@ -1,5 +1,5 @@
-CC_PATH ?= /Users/hh/git/llvm-project-memswasm/build
-WASI_LIBC_PATH ?= /Users/hh/git/ms-wasi-libc/sysroot
+CC_PATH ?= ../llvm-project-memswasm/build
+WASI_LIBC_PATH ?= ../ms-wasi-libc/sysroot
 SUFFIX ?= .wasm
 
 CC = $(CC_PATH)/bin/clang
