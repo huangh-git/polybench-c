@@ -67,6 +67,7 @@ compute_mean_exec_time()
 echo "[INFO] Running 5 times $1..."
 echo "[INFO] Maximal variance authorized on 3 average runs: $VARIANCE_ACCEPTED%)...";
 
+$2 $1 --allow-unknown-exports
 $2 $1 --allow-unknown-exports  > ____tempfile.data.polybench;
 $2 $1 --allow-unknown-exports  >> ____tempfile.data.polybench;
 $2 $1 --allow-unknown-exports  >> ____tempfile.data.polybench;
