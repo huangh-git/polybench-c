@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import argparse
 import re
@@ -11,10 +12,10 @@ testfiles = []
 overheads = []
 tmp_time = 0.0
 
-def execute_and_log(executable, log_file):
+def execute_and_log(executable, log_file, wasmtime_path):
     with open(log_file, 'a') as log:
         # 运行 wasm 文件使用 wasmer
-        result = subprocess.run(['./utilities/time_benchmark.sh', executable,  '/Users/hh/git/wasmtime/target/debug/wasmtime'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(['./utilities/time_benchmark.sh', executable,  wasmtime_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         log.write(f'Running {executable}...\n')
         log.write(result.stdout + '\n')
         log.write(result.stderr + '\n')
@@ -36,10 +37,12 @@ def execute_and_log(executable, log_file):
 def main():
     parser = argparse.ArgumentParser(description='Run all .wasm files in a directory and its subdirectories, and log the output.')
     parser.add_argument('--log', default='output.log', help='Path to the log file.')
+    parser.add_argument('--wasmtime', default='/Users/hh/git/wasmtime/target/debug/wasmtime', help='Path to the wasmtime')
     # parser.add_argument('--suffix', default='.wasm', help='Path to the root directory.')
     args = parser.parse_args()
 
     log_file = args.log
+    wasmtime_path = args.wasmtime
 
     # Clear or create the log file
     open(log_file, 'w').close()
@@ -48,8 +51,8 @@ def main():
         for file in files:
             file_path = os.path.join(root, file)
             if is_wasm(file_path):
-                execute_and_log(file_path, log_file)
-                execute_and_log(file_path.replace(".wasm", ".raw-wasm"), log_file)
+                execute_and_log(file_path, log_file, wasmtime_path)
+                execute_and_log(file_path.replace(".wasm", ".raw-wasm"), log_file, wasmtime_path)
                 testfiles.append(file_path[:-5])
 
     print(f'Script finished. Output logged to {log_file}')
