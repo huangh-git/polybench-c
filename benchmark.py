@@ -2,6 +2,7 @@ import os
 import subprocess
 import argparse
 import re
+import math
 
 def is_wasm(file_path):
     return file_path.endswith('.wasm')
@@ -24,7 +25,10 @@ def execute_and_log(executable, log_file):
                 global tmp_time
                 tmp_time = normalized_time
             else:
-                overheads.append((tmp_time - normalized_time)/normalized_time)
+                oh = (tmp_time - normalized_time)/normalized_time
+                if oh < 0:
+                    oh = 0.00001
+                overheads.append(oh)
         else:
             print('No match found in stdout.')
             exit(1)
@@ -51,10 +55,13 @@ def main():
     print(f'Script finished. Output logged to {log_file}')
     length = len(testfiles)
     sum_overheads = 0.0
+    acc_overheads = 1.0
     for i in range(length):
         print(f'{testfiles[i]:<55}, {overheads[i]:<10.5f}')
         sum_overheads += overheads[i]
-    print("average overhead:", sum_overheads/length)
+        acc_overheads *= overheads[i]
+    print("mean average overhead:", sum_overheads/length)
+    print("geometric average overhead:", math.pow(acc_overheads, 1/length))
 
 if __name__ == '__main__':
     main()
