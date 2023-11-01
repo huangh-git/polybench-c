@@ -18,12 +18,19 @@ ALL_C_FILES = $(LINEAR_ALGEBRA_KERNELS_FILES) $(LINEAR_ALGEBRA_SOLVERS_FILES) $(
 
 ALL_TARGET = $(patsubst %.c,%$(SUFFIX),$(ALL_C_FILES))
 
+NATIVE_TARGET = $(patsubst %.c,%.native,$(ALL_C_FILES))
+
 .PHONY: all clean
 
 all: $(ALL_TARGET)
 
+native : $(NATIVE_TARGET)
+
 %$(SUFFIX): %.c
 	$(CC) $(INCLUDES) -o $@ $< utilities/polybench.c $(CFLAGS)
+
+%.native: %.c
+	$(CC) -Iutilities -o $@ $< utilities/polybench.c -DPOLYBENCH_TIME -O2
 
 clean:
 	rm -f $(ALL_TARGET)

@@ -4,3 +4,4 @@
 .vscode/**
 **/____tempfile.data.polybench
 *.log
+*/**/*.*native
