@@ -5,8 +5,7 @@ import argparse
 import re
 import math
 
-suf = ".wasm"
-def is_wasm(file_path):
+def is_wasm(file_path, suf):
     return file_path.endswith(suf)
 
 
@@ -52,12 +51,12 @@ def main():
     for root, dirs, files in os.walk('.'):
         for file in files:
             file_path = os.path.join(root, file)
-            if is_wasm(file_path):
+            if is_wasm(file_path, suf):
                 execute_and_log(file_path, log_file, wasmtime_path, memsWasmT) #mems wasm
                 execute_and_log(file_path, log_file, wasmtime_path, storeCheckT, "--store-check-only") #mems wasm store check only
                 execute_and_log(file_path.replace(suf, ".raw-wasm"), log_file, wasmtime_path, rawWasmT) #raw
                 execute_and_log(file_path.replace(suf, ".native"), log_file, "", nativeT) #native
-                testfiles.append(file_path[2:-5])
+                testfiles.append(file_path[2:-len(suf)])
 
     print(f'Run finished. Output logged to {log_file}')
     length = len(testfiles)

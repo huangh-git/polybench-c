@@ -30,13 +30,13 @@ with open("result.log", 'r') as file:
 
 def calAvg(arr, rawArr):
     # 计算性能损耗的百分比
-    stArray = np.array(arr)
+    testArray = np.array(arr)
     rawArray = np.array(rawArr)
-    store_loss = ((stArray - rawArray) / rawArray) * 100
+    test_loss = ((testArray - rawArray) / rawArray) * 100
     # 计算算术平均性能损耗
-    arithmetic_mean_loss = np.mean(store_loss)
+    arithmetic_mean_loss = np.mean(test_loss)
     # 计算几何平均性能损耗的倍数
-    geometric_mean_multiplier = np.prod(1 + (store_loss / 100))**(1/len(store_loss))
+    geometric_mean_multiplier = np.prod(1 + (test_loss / 100))**(1/len(test_loss))
     # 将几何平均性能损耗的倍数转换为百分比
     geometric_mean_loss = (geometric_mean_multiplier - 1) * 100
     print(f"算术平均性能损耗: {arithmetic_mean_loss}%")
