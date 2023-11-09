@@ -12,9 +12,9 @@
 ## Here 5%
 VARIANCE_ACCEPTED=5;
 
-if [ $# -ne 2 ]; then
-    echo "Usage: ./time_benchmarh.sh <binary_name> <wasmtime_path>";
-    echo "Example: ./time_benchmarh.sh \"./a.out\" wasmtime";
+if [ $# -lt 1 ]; then
+    echo "Usage: ./time_benchmarh.sh <binary_name> [wasmtime_path] [--wasmtime_args]";
+    echo "Example: ./time_benchmarh.sh \"./a.out\" wasmtime --store-check-only";
     echo "Note: the file must be a Polybench program compiled with -DPOLYBENCH_TIME";
     exit 1;
 fi;
@@ -67,12 +67,12 @@ compute_mean_exec_time()
 echo "[INFO] Running 5 times $1..."
 echo "[INFO] Maximal variance authorized on 3 average runs: $VARIANCE_ACCEPTED%)...";
 
-$2 $1 --allow-unknown-exports
-$2 $1 --allow-unknown-exports  > ____tempfile.data.polybench;
-$2 $1 --allow-unknown-exports  >> ____tempfile.data.polybench;
-$2 $1 --allow-unknown-exports  >> ____tempfile.data.polybench;
-$2 $1 --allow-unknown-exports  >> ____tempfile.data.polybench;
-$2 $1 --allow-unknown-exports  >> ____tempfile.data.polybench;
+# $2 $1 --allow-unknown-exports $3
+$2 $1 --allow-unknown-exports $3 > ____tempfile.data.polybench;
+$2 $1 --allow-unknown-exports $3 >> ____tempfile.data.polybench;
+$2 $1 --allow-unknown-exports $3 >> ____tempfile.data.polybench;
+$2 $1 --allow-unknown-exports $3 >> ____tempfile.data.polybench;
+$2 $1 --allow-unknown-exports $3 >> ____tempfile.data.polybench;
 
 compute_mean_exec_time "____tempfile.data.polybench" "$1";
 echo "[INFO] Normalized time: $PROCESSED_TIME";
