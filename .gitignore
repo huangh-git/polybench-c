@@ -5,3 +5,4 @@
 **/____tempfile.data.polybench
 *.log
 */**/*.*native
+*.png

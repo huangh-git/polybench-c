@@ -62,10 +62,10 @@ plt.bar(r2, storeWasmRatios, color='silver', width=bar_width, edgecolor='white',
 plt.bar(r2, memsWasmIncrements, color='black', width=bar_width, edgecolor='white', label='Mems Wasm Increment', bottom=storeWasmRatios)
 
 # 添加x轴标签
-plt.xlabel('Benchmark', fontweight='bold', fontsize=12)
-plt.xticks([r + bar_width for r in range(len(labels))], labels, rotation=90)
-plt.ylabel('Percentage (%)', fontweight='bold', fontsize=12)
-plt.ylim(0, 1400)  # y轴的范围
+plt.xlabel('Benchmark Files', fontweight='bold', fontsize=12)
+plt.xticks([r + bar_width/2 for r in range(len(labels))], labels, rotation=90)
+plt.ylabel('relative native code execution time (%)', fontweight='bold', fontsize=12)
+plt.ylim(0, 600)  # y轴的范围
 
 # 添加图例
 plt.legend()
