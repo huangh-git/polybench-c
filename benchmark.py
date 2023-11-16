@@ -46,7 +46,7 @@ def main():
     rawWasmT = []
     storeCheckT = []
     memsWasmT = []
-    # upperCheckT = []
+    upperCheckT = []
 
     # run files
     for root, dirs, files in os.walk('.'):
@@ -55,7 +55,7 @@ def main():
             if is_wasm(file_path, suf):
                 execute_and_log(file_path, log_file, wasmtime_path, memsWasmT) #mems wasm
                 execute_and_log(file_path, log_file, wasmtime_path, storeCheckT, "--store-check-only") #mems wasm store check only
-                # execute_and_log(file_path, log_file, wasmtime_path, upperCheckT, "--upper-check-only")
+                execute_and_log(file_path, log_file, wasmtime_path, upperCheckT, "--upper-check-only")
                 execute_and_log(file_path.replace(suf, ".raw-wasm"), log_file, wasmtime_path, rawWasmT) #raw
                 execute_and_log(file_path.replace(suf, ".native"), log_file, "", nativeT) #native
                 testfiles.append(file_path.replace(suf, ""))
@@ -67,22 +67,23 @@ def main():
     raw_acc_overheads = 1.0
     mems_acc_overheads = 1.0
     store_acc_overheads = 1.0
-    # upper_acc_overheads = 1.0
+    upper_acc_overheads = 1.0
     with open("result.log", 'w') as log:
-        log.write(f'{" ":<55} {"rawWasmRatio":<15} {"upperOnlyRatio":<15} {"storeOnlyRatio":<15} {"memsWasmRatio":<15}\n')
+        log.write(f'{" ":<55} {"rawWasmRatio":<15} {"storeOnlyRatio":<15} {"upperOnlyRatio":<15} {"memsWasmRatio":<15}\n')
         for i in range(length):
             rawWasmRatio = rawWasmT[i]/nativeT[i]
             memsWasmRatio = memsWasmT[i]/nativeT[i]
             storeOnlyRatio = storeCheckT[i]/nativeT[i]
-            # upperOnlyRatio = upperCheckT[i]/nativeT[i]
+            upperOnlyRatio = upperCheckT[i]/nativeT[i]
             print(f'{testfiles[i]:<55} : nativeT:{nativeT[i]:<5.8f}s')
-            # print(f'\trawWasmT:{rawWasmT[i]:<5.8f}s, upperOnlyCheckT:{upperCheckT[i]:<5.8f}s, storeOnlyCheckT:{storeCheckT[i]:<5.8f}s, memsWasmT:{memsWasmT[i]:<5.8f}s,', end='')
-            # print(f'rawWasmRatio:{rawWasmRatio:<5.8f}, upperOnlyCheckRatio:{upperOnlyRatio:<5.8f}s, storeOnlyCheckRatio:{storeOnlyRatio:<5.8f}s, memsWasmRatio:{memsWasmRatio:<5.8f}')
-            print(f'\trawWasmT:{rawWasmT[i]:<5.8f}s, storeOnlyCheckT:{storeCheckT[i]:<5.8f}s, memsWasmT:{memsWasmT[i]:<5.8f}s,', end='')
-            print(f'rawWasmRatio:{rawWasmRatio:<5.8f}, storeOnlyCheckRatio:{storeOnlyRatio:<5.8f}s, memsWasmRatio:{memsWasmRatio:<5.8f}')
-            log.write(f'{testfiles[i]:<55},{rawWasmRatio:<10.5f},{storeOnlyRatio:<10.5},{memsWasmRatio:<10.5f}\n')
+            print(f'\trawWasmT:{rawWasmT[i]:<5.8f}s, upperOnlyCheckT:{upperCheckT[i]:<5.8f}s, storeOnlyCheckT:{storeCheckT[i]:<5.8f}s, memsWasmT:{memsWasmT[i]:<5.8f}s,', end='')
+            print(f'rawWasmRatio:{rawWasmRatio:<5.8f}, upperOnlyCheckRatio:{upperOnlyRatio:<5.8f}s, storeOnlyCheckRatio:{storeOnlyRatio:<5.8f}s, memsWasmRatio:{memsWasmRatio:<5.8f}')
+            # print(f'\trawWasmT:{rawWasmT[i]:<5.8f}s, storeOnlyCheckT:{storeCheckT[i]:<5.8f}s, memsWasmT:{memsWasmT[i]:<5.8f}s,', end='')
+            # print(f'rawWasmRatio:{rawWasmRatio:<5.8f}, storeOnlyCheckRatio:{storeOnlyRatio:<5.8f}s, memsWasmRatio:{memsWasmRatio:<5.8f}')
+            # log.write(f'{testfiles[i]:<55},{rawWasmRatio:<10.5f},{storeOnlyRatio:<10.5},{memsWasmRatio:<10.5f}\n')
+            log.write(f'{testfiles[i]:<55},{rawWasmRatio:<10.5f},{storeOnlyRatio:<10.5},{upperOnlyRatio:<10.5},{memsWasmRatio:<10.5f}\n')
             raw_acc_overheads *= rawWasmRatio
-            # upper_acc_overheads *= upperOnlyRatio
+            upper_acc_overheads *= upperOnlyRatio
             store_acc_overheads *= storeOnlyRatio
             mems_acc_overheads *= memsWasmRatio
             # raw_sum_ration += rawWasmRatio
@@ -90,15 +91,15 @@ def main():
         # print("mean average overhead:", sum_overheads/length)
         # geomean
         raw_geomean = math.pow(raw_acc_overheads, 1/length)
-        # upper_geomean = math.pow(upper_acc_overheads, 1/length)
+        upper_geomean = math.pow(upper_acc_overheads, 1/length)
         store_geomean = math.pow(store_acc_overheads, 1/length)
         mems_geomean = math.pow(mems_acc_overheads, 1/length)
 
         print("geometric average overhead for raw wasm:", raw_geomean)
-        # print("geometric average overhead for upper check only:", upper_geomean)
+        print("geometric average overhead for upper check only:", upper_geomean)
         print("geometric average overhead for store check only:", store_geomean)
         print("geometric average overhead for mems wasm:", mems_geomean)
-        # print("overhead for upper check only:", (upper_geomean - raw_geomean)/raw_geomean)
+        print("overhead for upper check only:", (upper_geomean - raw_geomean)/raw_geomean)
         print("overhead for store check only:", (store_geomean - raw_geomean)/raw_geomean)
         print("overhead for mems wasm:", (mems_geomean - raw_geomean)/raw_geomean)
         # print("mean average overhead for raw wasm:", raw_sum_ration/length)

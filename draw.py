@@ -10,8 +10,9 @@ import numpy as np
 labels = []
 rawWasmRatios = [] 
 storeWasmRatios = []
+upperWasmRatios = []
 memsWasmRatios = []
-memsWasmIncrements = []
+# memsWasmIncrements = []
 
 with open("result.log", 'r') as file:
     # Skip the first line
@@ -25,8 +26,9 @@ with open("result.log", 'r') as file:
         labels.append(parts[0].split('/')[-1])  # Extract just the last part of the path for brevity
         rawWasmRatios.append(float(parts[1])/float(parts[1]) * 100)  # Convert to percentage
         storeWasmRatios.append(float(parts[2])/float(parts[1]) * 100)  # Convert to percentage
-        memsWasmRatios.append(float(parts[3])/float(parts[1]) * 100)
-        memsWasmIncrements.append((float(parts[3]) - float(parts[2]))/float(parts[1]) * 100)  # Increment and convert to percentage
+        upperWasmRatios.append(float(parts[3])/float(parts[1]) * 100)
+        memsWasmRatios.append(float(parts[4])/float(parts[1]) * 100)
+        # memsWasmIncrements.append((float(parts[3]) - float(parts[2]))/float(parts[1]) * 100)  # Increment and convert to percentage
 
 def calAvg(arr, rawArr):
     # 计算性能损耗的百分比
@@ -43,6 +45,7 @@ def calAvg(arr, rawArr):
     print(f"几何平均性能损耗: {geometric_mean_loss}%")
 
 calAvg(storeWasmRatios, rawWasmRatios)
+calAvg(upperWasmRatios, rawWasmRatios)
 calAvg(memsWasmRatios, rawWasmRatios)
 
 # 设置图像大小和分辨率
@@ -54,12 +57,13 @@ bar_width = 0.35
 # 条形位置
 r1 = range(len(labels))
 r2 = [x + bar_width for x in r1]
+r3 = [x + bar_width for x in r2]
 
 # 创建条形
-plt.bar(r1, rawWasmRatios, color='grey', width=bar_width, edgecolor='white', label='Raw Wasm Ratio')
-plt.bar(r2, storeWasmRatios, color='silver', width=bar_width, edgecolor='white', label='Store Only Check Wasm Ratio')
+plt.bar(r1, storeWasmRatios, color='grey', width=bar_width, edgecolor='white', label='Store Check Only Wasm Ratio')
+plt.bar(r2, upperWasmRatios, color='silver', width=bar_width, edgecolor='white', label='Upper Bound Check Only Wasm Ratio')
 # 第四列只显示增量
-plt.bar(r2, memsWasmIncrements, color='black', width=bar_width, edgecolor='white', label='Mems Wasm Increment', bottom=storeWasmRatios)
+plt.bar(r3, memsWasmRatios, color='black', width=bar_width, edgecolor='white', label='Mems Wasm Ratio')#, bottom=storeWasmRatios)
 
 # 添加x轴标签
 plt.xlabel('Benchmark', fontweight='bold', fontsize=12)
