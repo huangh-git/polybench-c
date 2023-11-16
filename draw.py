@@ -52,23 +52,24 @@ calAvg(memsWasmRatios, rawWasmRatios)
 plt.figure(figsize=(10, 8))
 
 # 条形的宽度
-bar_width = 0.35
+bar_width = 0.25
 
 # 条形位置
-r1 = range(len(labels))
-r2 = [x + bar_width for x in r1]
+r2 = range(len(labels))
+r1 = [x - bar_width for x in r2]
 r3 = [x + bar_width for x in r2]
 
 # 创建条形
-plt.bar(r1, storeWasmRatios, color='grey', width=bar_width, edgecolor='white', label='Store Check Only Wasm Ratio')
-plt.bar(r2, upperWasmRatios, color='silver', width=bar_width, edgecolor='white', label='Upper Bound Check Only Wasm Ratio')
+plt.bar(r1, storeWasmRatios, color='green', width=bar_width, edgecolor='white', label='Store Check Only Wasm Ratio')
+plt.bar(r2, upperWasmRatios, color='orange', width=bar_width, edgecolor='white', label='Upper Bound Check Only Wasm Ratio')
 # 第四列只显示增量
-plt.bar(r3, memsWasmRatios, color='black', width=bar_width, edgecolor='white', label='Mems Wasm Ratio')#, bottom=storeWasmRatios)
+plt.bar(r3, memsWasmRatios, color='red', width=bar_width, edgecolor='white', label='Mems Wasm Ratio')#, bottom=storeWasmRatios)
+plt.axhline(y=100, color='gray', linestyle='--')
 
 # 添加x轴标签
 plt.xlabel('Benchmark', fontweight='bold', fontsize=12)
-plt.xticks([r + bar_width for r in range(len(labels))], labels, rotation=90)
-plt.ylabel('Percentage (%)', fontweight='bold', fontsize=12)
+plt.xticks([r  for r in range(len(labels))], labels, rotation=90)
+plt.ylabel('relative execution time, standard wasm is 100% (%)', fontweight='bold', fontsize=12)
 plt.ylim(0, 400)  # y轴的范围
 
 # 添加图例
