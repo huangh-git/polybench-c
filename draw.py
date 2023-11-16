@@ -23,10 +23,10 @@ with open("result.log", 'r') as file:
         parts = line.split(",")
         # print(parts)
         labels.append(parts[0].split('/')[-1])  # Extract just the last part of the path for brevity
-        rawWasmRatios.append(float(parts[1]) * 100)  # Convert to percentage
-        storeWasmRatios.append(float(parts[2]) * 100)  # Convert to percentage
-        memsWasmRatios.append(float(parts[3]) * 100)
-        memsWasmIncrements.append((float(parts[3]) - float(parts[2])) * 100)  # Increment and convert to percentage
+        rawWasmRatios.append(float(parts[1])/float(parts[1]) * 100)  # Convert to percentage
+        storeWasmRatios.append(float(parts[2])/float(parts[1]) * 100)  # Convert to percentage
+        memsWasmRatios.append(float(parts[3])/float(parts[1]) * 100)
+        memsWasmIncrements.append((float(parts[3]) - float(parts[2]))/float(parts[1]) * 100)  # Increment and convert to percentage
 
 def calAvg(arr, rawArr):
     # 计算性能损耗的百分比
@@ -65,7 +65,7 @@ plt.bar(r2, memsWasmIncrements, color='black', width=bar_width, edgecolor='white
 plt.xlabel('Benchmark', fontweight='bold', fontsize=12)
 plt.xticks([r + bar_width for r in range(len(labels))], labels, rotation=90)
 plt.ylabel('Percentage (%)', fontweight='bold', fontsize=12)
-plt.ylim(0, 1400)  # y轴的范围
+plt.ylim(0, 400)  # y轴的范围
 
 # 添加图例
 plt.legend()
