@@ -49,7 +49,7 @@ calAvg(upperWasmRatios, rawWasmRatios)
 calAvg(memsWasmRatios, rawWasmRatios)
 
 # 设置图像大小和分辨率
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(16, 8))
 
 # 条形的宽度
 bar_width = 0.25
@@ -60,17 +60,17 @@ r1 = [x - bar_width for x in r2]
 r3 = [x + bar_width for x in r2]
 
 # 创建条形
-plt.bar(r1, storeWasmRatios, color='green', width=bar_width, edgecolor='white', label='Store Check Only Wasm Ratio')
-plt.bar(r2, upperWasmRatios, color='orange', width=bar_width, edgecolor='white', label='Upper Bound Check Only Wasm Ratio')
+plt.bar(r1, storeWasmRatios, color='green', width=bar_width, edgecolor='white', label='Store Check Only(MemS-Wasm)')
+plt.bar(r2, upperWasmRatios, color='orange', width=bar_width, edgecolor='white', label='Upper Bound Check Only(MemS-Wasm)')
 # 第四列只显示增量
-plt.bar(r3, memsWasmRatios, color='red', width=bar_width, edgecolor='white', label='Mems Wasm Ratio')#, bottom=storeWasmRatios)
-plt.axhline(y=100, color='gray', linestyle='--')
+plt.bar(r3, memsWasmRatios, color='red', width=bar_width, edgecolor='white', label='Full Check(MemS-Wasm)')#, bottom=storeWasmRatios)
+plt.axhline(y=100, color='gray', linestyle='--', label="Standard Wasm")
 
 # 添加x轴标签
 plt.xlabel('Benchmark', fontweight='bold', fontsize=12)
 plt.xticks([r  for r in range(len(labels))], labels, rotation=90)
 plt.ylabel('relative execution time, standard wasm is 100% (%)', fontweight='bold', fontsize=12)
-plt.ylim(0, 400)  # y轴的范围
+plt.ylim(0, 500)  # y轴的范围
 
 # 添加图例
 plt.legend()
@@ -79,7 +79,7 @@ plt.legend()
 plt.tight_layout()
 
 # 保存图像
-plt.savefig('./res.png', bbox_inches='tight')
+plt.savefig('./res.png', bbox_inches='tight', dpi=300)
 
 # 显示图像
 plt.show()
