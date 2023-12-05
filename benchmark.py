@@ -12,11 +12,8 @@ def is_wasm(file_path, suf):
 def execute_and_log(executable, log_file, wasmtime_path, out_arr, run_option = ""):
     # print(f'{executable}, {log_file}, {wasmtime_path}')
     with open(log_file, 'a') as log:
-        # 运行 wasm 文件使用 
-        # if exe_type != 0:
         result = subprocess.run(['./utilities/time_benchmark.sh', executable,  wasmtime_path, run_option], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        # else:
-        #     result = subprocess.run(['./utilities/time_benchmark_native.sh', executable], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        
         log.write(f'Running {executable}...\n')
         log.write(result.stdout + ' ' + run_option + '\n')
         log.write(result.stderr + '\n')
@@ -78,35 +75,27 @@ def main():
             print(f'{testfiles[i]:<55} : nativeT:{nativeT[i]:<5.8f}s')
             print(f'\trawWasmT:{rawWasmT[i]:<5.8f}s, upperOnlyCheckT:{upperCheckT[i]:<5.8f}s, storeOnlyCheckT:{storeCheckT[i]:<5.8f}s, memsWasmT:{memsWasmT[i]:<5.8f}s,', end='')
             print(f'rawWasmRatio:{rawWasmRatio:<5.8f}, upperOnlyCheckRatio:{upperOnlyRatio:<5.8f}s, storeOnlyCheckRatio:{storeOnlyRatio:<5.8f}s, memsWasmRatio:{memsWasmRatio:<5.8f}')
-            # print(f'\trawWasmT:{rawWasmT[i]:<5.8f}s, storeOnlyCheckT:{storeCheckT[i]:<5.8f}s, memsWasmT:{memsWasmT[i]:<5.8f}s,', end='')
-            # print(f'rawWasmRatio:{rawWasmRatio:<5.8f}, storeOnlyCheckRatio:{storeOnlyRatio:<5.8f}s, memsWasmRatio:{memsWasmRatio:<5.8f}')
-            # log.write(f'{testfiles[i]:<55},{rawWasmRatio:<10.5f},{storeOnlyRatio:<10.5},{memsWasmRatio:<10.5f}\n')
-            log.write(f'{testfiles[i]:<55},{rawWasmRatio:<10.5f},{storeOnlyRatio:<10.5},{upperOnlyRatio:<10.5},{memsWasmRatio:<10.5f}\n')
+            log.write(f'{testfiles[i]:<55},{rawWasmRatio:<12.5f},{storeOnlyRatio:<12.5},{upperOnlyRatio:<12.5},{memsWasmRatio:<12.5f}\n')
             raw_acc_overheads *= rawWasmRatio
             upper_acc_overheads *= upperOnlyRatio
             store_acc_overheads *= storeOnlyRatio
             mems_acc_overheads *= memsWasmRatio
-            # raw_sum_ration += rawWasmRatio
-            # mems_sum_ration += memsWasmRatio
-        # print("mean average overhead:", sum_overheads/length)
+            
         # geomean
         raw_geomean = math.pow(raw_acc_overheads, 1/length)
         upper_geomean = math.pow(upper_acc_overheads, 1/length)
         store_geomean = math.pow(store_acc_overheads, 1/length)
         mems_geomean = math.pow(mems_acc_overheads, 1/length)
 
-        print("geometric average overhead for raw wasm:", raw_geomean)
-        print("geometric average overhead for upper check only:", upper_geomean)
-        print("geometric average overhead for store check only:", store_geomean)
-        print("geometric average overhead for mems wasm:", mems_geomean)
+        print("geometric average relative time for raw wasm:", raw_geomean)
+        print("geometric average relative time for upper check only:", upper_geomean)
+        print("geometric average relative time for store check only:", store_geomean)
+        print("geometric average relative time for mems wasm:", mems_geomean)
         print("overhead for upper check only:", (upper_geomean - raw_geomean)/raw_geomean)
         print("overhead for store check only:", (store_geomean - raw_geomean)/raw_geomean)
         print("overhead for mems wasm:", (mems_geomean - raw_geomean)/raw_geomean)
         # print("mean average overhead for raw wasm:", raw_sum_ration/length)
         # print("mean average overhead for mems wasm:", mems_sum_ration/length)
-
-        # log.write(f"geometric average overhead for raw wasm: {math.pow(raw_acc_overheads, 1/length)}\n")
-        # log.write(f"geometric average overhead for mems wasm: {math.pow(mems_acc_overheads, 1/length)}\n")
 
 if __name__ == '__main__':
     main()

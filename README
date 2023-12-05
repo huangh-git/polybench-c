@@ -1,3 +1,37 @@
+# How to Test
+## Folder Location
+All the projects that were cloned from Git are located in the same folder. Like the following.
+```
+.
+├── llvm-project-memswasm
+├── ms-wasi-libc
+├── ms-wasi-sdk
+├── polybench-c
+├── wasi-sdk
+└── wasmtime
+```
+## Prepare compilers
+1. Build compile [MemS-Wasm compiler](https://github.com/huangh-git/llvm-project-memswasm) 
+2. Build Standard WebAssembly compiler from [wasi-sdk](https://github.com/WebAssembly/wasi-sdk). And we use wasi-sdk-16 because it corresponds to llvm version 14.
+```
+git clone https://github.com/WebAssembly/wasi-sdk.git
+git checkout tags/wasi-sdk-16     
+git submodule update --init
+NINJA_FLAGS=-v make package
+```
+3. There should be `/usr/bin/clang`.
+
+
+## Prepare wasmtime
+You need to prepare [wasmtime](https://github.com/huangh-git/wasmtime) virtual machine for MemS-Wasm.
+## Run Tests
+Use `run.sh`. The output files `result.log` and `res.png` are the result files after the run.
+```
+./run.sh
+```
+
+
+# Introduction to PolyBenchC
 * * * * * * * * * *
 * PolyBench/C 3.2 *
 * * * * * * * * * *

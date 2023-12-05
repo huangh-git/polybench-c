@@ -1,6 +1,8 @@
 CC_PATH ?= ../llvm-project-memswasm/build
 WASI_LIBC_PATH ?= ../ms-wasi-libc/sysroot
-SUFFIX ?= .wasm
+SUFFIX ?= .mems-wasm
+
+NATIVE_FLAG ?= -lm
 
 CC = $(CC_PATH)/bin/clang
 CFLAGS =-O2 --target=wasm32-unknown-wasi -ffreestanding --sysroot $(WASI_LIBC_PATH) -x c -L$(WASI_LIBC_PATH)/lib/wasm32-wasi -lc -Wl,--no-entry -Wl,--export-all -DPOLYBENCH_TIME -D_WASI_EMULATED_PROCESS_CLOCKS -lwasi-emulated-process-clocks
@@ -30,7 +32,7 @@ native : $(NATIVE_TARGET)
 	$(CC) $(INCLUDES) -o $@ $< utilities/polybench.c $(CFLAGS)
 
 %.native: %.c
-	$(CC) -Iutilities -o $@ $< utilities/polybench.c -DPOLYBENCH_TIME -O2
+	$(CC) -Iutilities -o $@ $< utilities/polybench.c -DPOLYBENCH_TIME -O2 $(NATIVE_FLAG)
 
 clean:
 	rm -f $(ALL_TARGET)
