@@ -69,7 +69,7 @@ plt.legend()
 plt.tight_layout()
 
 # save
-plt.savefig('./res.png', bbox_inches='tight', dpi=300)
+plt.savefig('./res.png', bbox_inches='tight', dpi=1000)
 
 # show
 plt.show()
